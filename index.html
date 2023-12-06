@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <h1>Enter Wallet Address:</h1>
+    <h3>We can only check USDT on polygon blockchain</h3>
+    <h5>(If more than one wallet address, then enter comma seperated values)</h5>
+    <input type="text" placeholder="Enter here" id="inpt" required />
+    <div>
+        <select name="coin" id="coin">
+            <option value="USDT">USDT</option>
+            <option value="USDC">USDC</option>
+            <option value="Matic">Matic</option>
+        </select>
+        <button id="btn">Fetch</button>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
