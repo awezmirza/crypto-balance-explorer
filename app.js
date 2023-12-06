@@ -16,13 +16,14 @@ async function inptStringToArray(fullString) {
         if (fullString[i] == ",") {
             let substr = fullString.substring(lastIdx, i);
             substr = substr.trim();
-            amounts.push(substr);
             lastIdx = i + 1;
+            if (substr == "" || substr == " ") continue;
+            amounts.push(substr);
         }
     }
     let substr = fullString.substring(lastIdx, fullString.length);
     substr = substr.trim();
-    amounts.push(substr);
+    if (!(substr == "" || substr == " ")) amounts.push(substr);
 }
 
 
@@ -60,6 +61,7 @@ btn.addEventListener("click", async () => {
     const coinAddress = getCoin(coin);
 
     for (let address of amounts) {
+
         const amount = await getBalance(address, coinAddress);
         const body = document.querySelector("body");
         if (amount == -1) {
