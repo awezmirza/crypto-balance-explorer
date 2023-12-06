@@ -14,13 +14,13 @@ async function inptStringToArray(fullString) {
     let lastIdx = 0;
     for (let i = 0; i < fullString.length; i++) {
         if (fullString[i] == ",") {
-            let substr = fullString.substring(lastIdx, i - 1);
+            let substr = fullString.substring(lastIdx, i);
             substr = substr.trim();
             amounts.push(substr);
             lastIdx = i + 1;
         }
     }
-    let substr = fullString.substring(lastIdx, fullString.length - 1);
+    let substr = fullString.substring(lastIdx, fullString.length);
     substr = substr.trim();
     amounts.push(substr);
 }
