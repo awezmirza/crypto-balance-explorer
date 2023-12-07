@@ -1,26 +1,42 @@
-const polyApiKey = "X1QIYHSGZWGNAQB8PPGIWSFEQ67H5EV9S9";
-const etherApiKey = "N6AAJCSUEIX8X1FVJMH9DR34HJQ6QGAU5P";
-const polyUsdtContractAddress = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F";
-const polyUsdcContractAddress = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
-const polyMaticContractAddress = "0x0000000000000000000000000000000000001010";
+const data = {
+    polygon: {
+        apiKey: "X1QIYHSGZWGNAQB8PPGIWSFEQ67H5EV9S9",
+        tokens: {
+            USDT: {
+                tokenAddress: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+                decimal: 0.000001
+            },
+            USDC: {
+                tokenAddress: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+                decimal: 0.000001
+            },
+            Matic: {
+                tokenAddress: "0x0000000000000000000000000000000000001010",
+                decimal: 0.000000000000000001
+            }
+        }
+    },
+    ethereum: {
+        apiKey: "N6AAJCSUEIX8X1FVJMH9DR34HJQ6QGAU5P",
+        tokens: {
+            USDT: {
+                tokenAddress: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                decimal: 0.000001
+            },
+            USDC: {
+                tokenAddress: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                decimal: 0.000001
+            },
+            Matic: {
+                tokenAddress: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
+                decimal: 0.000000000000000001
+            }
 
-const etherUsdtContractAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
-const etherUsdcContractAddress = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
-const etherMaticContractAddress = "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0";
-
-let coinAddress = "";
-
-const getCoin = (coin) => {
-    if (coin == "USDT") return polyUsdtContractAddress;
-    else if (coin == "USDC") return polyUsdcContractAddress;
-    else return polyMaticContractAddress;
+        }
+    }
 }
 
-const setEthCoin = (coin) => {
-    if (coin == "USDT") return etherUsdtContractAddress;
-    else if (coin == "USDC") return etherUsdcContractAddress;
-    else return etherMaticContractAddress;
-}
+// let tableObject = {adresses : [], amounts: [], };
 
 let amounts = [];
 async function inptStringToArray(fullString) {
@@ -39,22 +55,18 @@ async function inptStringToArray(fullString) {
     if (!(substr == "" || substr == " ")) amounts.push(substr);
 }
 
-async function getBalance(address, coinAddress, chain) {
+async function getBalance(address, chain, coin) {
     try {
-        if (chain == "Ethereum") {
-            url = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${coinAddress}&address=${address}&tag=latest&apikey=${etherApiKey}`;
+        const coinAddress = data[chain].tokens[coin].tokenAddress;
+        if (chain == "ethereum") {
+            url = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${coinAddress}&address=${address}&tag=latest&apikey=${data[chain].apiKey}`;
         }
         else {
-            url = `https://api.polygonscan.com/api?module=account&action=tokenbalance&contractaddress=${coinAddress}&address=${address}&tag=latest&apikey=${polyApiKey}`;
+            url = `https://api.polygonscan.com/api?module=account&action=tokenbalance&contractaddress=${coinAddress}&address=${address}&tag=latest&apikey=${data[chain].apiKey}`;
         }
         const gotVal = await axios.get(url);
         if (gotVal.data.status == 1) {
-            if (coinAddress != polyMaticContractAddress && coinAddress != etherMaticContractAddress) {
-                return (gotVal.data.result * 0.000001);
-            }
-            else {
-                return (gotVal.data.result * 0.000000000000000001);
-            }
+            return (gotVal.data.result * data[chain].tokens[coin].decimal);
         }
         else {
             return -1;
@@ -63,6 +75,7 @@ async function getBalance(address, coinAddress, chain) {
         return -1;
     }
 }
+
 const btnCopyTable = document.querySelector('#btn-copy-table');
 const exportTable = document.querySelector('#export');
 
@@ -71,22 +84,25 @@ const btn = document.getElementById("btn");
 btn.addEventListener("click", async () => {
     const addresses = document.querySelector("#inpt");
     const chain = document.querySelector("#chain").value;
+    const coin = document.getElementById("coin").value;
 
     await inptStringToArray(addresses.value);
 
     addresses.value = "";
 
-    const coin = document.querySelector("#coin").value;
-    if (chain == "Ethereum") {
-        coinAddress = setEthCoin(coin)
-    }
-    else {
-        coinAddress = getCoin(coin)
-    }
-
     for (let address of amounts) {
-
-        const amount = await getBalance(address, coinAddress, chain);
+        const amount = await getBalance(address, chain, coin);
+        // if (!tableObject[address]) {
+        //     tableObject[address] = [];
+        // }
+        // if (!tableObject[chain]) {
+        //     tableObject[chain] = [];
+        // }
+        // if (!tableObject[coin]) {
+        //     tableObject[coin] = [];
+        // }
+        // tableObject[address][chain][coin].amount = amount;
+        // console.log(tableObject);
         const body = document.querySelector("body");
         if (amount == -1) {
             const h2 = document.createElement("h2");
