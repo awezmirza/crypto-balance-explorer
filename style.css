@@ -17,6 +17,7 @@ body {
     background-color: #131515;
     color: #FFFAFB;
     font-family: 'Work Sans', sans-serif;
+    scroll-behavior: smooth;
 }
 
 h1 {
@@ -67,4 +68,22 @@ select:hover {
 option {
     background-color: #7DE2D1;
     color: #131515;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #7DE2D1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #027864;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #00ffd5;
 }

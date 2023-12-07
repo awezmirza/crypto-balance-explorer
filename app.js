@@ -22,11 +22,6 @@ const setEthCoin = (coin) => {
     else return etherMaticContractAddress;
 }
 
-// let url = `https://api.polygonscan.com/api?module=account&action=tokenbalance&contractaddress=${coinAddress}&address=${address}&tag=latest&apikey=${polyApiKey}`
-// const setChain = () => {
-//     url = `https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress=${coinAddress}&address=${address}&tag=latest&apikey=${etherApiKey}`
-// }
-
 let amounts = [];
 async function inptStringToArray(fullString) {
     let lastIdx = 0;
@@ -79,7 +74,6 @@ btn.addEventListener("click", async () => {
     await inptStringToArray(addresses.value);
 
     addresses.value = "";
-    console.log(amounts);
 
     const coin = document.querySelector("#coin").value;
     console.log(coin);
