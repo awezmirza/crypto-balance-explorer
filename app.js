@@ -48,9 +48,8 @@ async function getBalance(address, coinAddress, chain) {
             url = `https://api.polygonscan.com/api?module=account&action=tokenbalance&contractaddress=${coinAddress}&address=${address}&tag=latest&apikey=${polyApiKey}`;
         }
         const gotVal = await axios.get(url);
-        console.log(gotVal.data);
         if (gotVal.data.status == 1) {
-            if (coinAddress != polyMaticContractAddress || coinAddress != etherMaticContractAddress) {
+            if (coinAddress != polyMaticContractAddress && coinAddress != etherMaticContractAddress) {
                 return (gotVal.data.result * 0.000001);
             }
             else {
@@ -64,6 +63,8 @@ async function getBalance(address, coinAddress, chain) {
         return -1;
     }
 }
+const btnCopyTable = document.querySelector('#btn-copy-table');
+const exportTable = document.querySelector('#export');
 
 let tableCreated = 0;
 const btn = document.getElementById("btn");
@@ -76,7 +77,6 @@ btn.addEventListener("click", async () => {
     addresses.value = "";
 
     const coin = document.querySelector("#coin").value;
-    console.log(coin);
     if (chain == "Ethereum") {
         coinAddress = setEthCoin(coin)
     }
@@ -98,15 +98,67 @@ btn.addEventListener("click", async () => {
                 const table = document.createElement("table");
                 const tr = document.createElement("tr");
                 tr.innerHTML = `<th> Wallet Address </th> <th> Amount </th> <th> Coin</th> <th> Blockchain </th>`;
+                const tbl = document.querySelector("#tbl");
                 table.appendChild(tr);
-                body.append(table);
+                tbl.append(table);
             }
             const table = document.querySelector("table");
             const tr = document.createElement("tr");
             tr.innerHTML = ` <td> ${address} </td> <td> <b> ${amount} </td> </b>  <td> ${coin}</td> <td> ${chain}`;
             table.appendChild(tr);
             tableCreated = 1;
+            btnCopyTable.classList.remove("dispNone");
+            exportTable.classList.remove("dispNone");
         }
     }
     amounts = []
+})
+
+const tableToCSV = async () => {
+    try {
+        let csvData = [];
+
+        const rows = document.querySelectorAll("tr");
+        for (let row of rows) {
+            let cols = row.querySelectorAll("th,td");
+            let csvRow = []
+            for (let col of cols) {
+                csvRow.push(col.innerText);
+            }
+            csvData.push(csvRow.join(","));
+        }
+        csvData = csvData.join("\n");
+
+        const blob = new Blob([csvData], { type: 'text/csv' });
+
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'Coins.csv';
+
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } catch (error) {
+        alert("Error " + error + " Occured");
+    }
+}
+
+const copyEl = async () => {
+    const elToBeCopied = document.querySelector('table');
+    try {
+        await navigator.clipboard.writeText(elToBeCopied.innerText);
+        alert("Table copied to clipboard");
+    } catch (err) {
+        alert("Something went wrong");
+    }
+};
+
+btnCopyTable.addEventListener('click', () => copyEl());
+exportTable.addEventListener('click', () => tableToCSV());
+
+const hreBtn = document.querySelector(".btn2");
+
+hreBtn.addEventListener("click", () => {
+    window.location.href = 'https://www.linkedin.com/in/awezmirza/';
 })

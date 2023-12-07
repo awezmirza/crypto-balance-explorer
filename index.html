@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fetch Coins by Awez Mirza</title>
+    <title>Coins Amount Fetcher</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,10 +14,18 @@
 </head>
 
 <body>
-    <h1>Enter Wallet Address:</h1>
-    <h3>We can only check USDT on polygon blockchain</h3>
+    <div class="header">
+        <h1>Coins Amount Fetcher</h1>
+        <button class="btnSimple btn2">Connect</button>
+    </div>
     <h5>(If more than one wallet address, then enter comma seperated values)</h5>
-    <input type="text" placeholder="Enter here" id="inpt" required />
+    <h4 class="firstH4">Example 1 :
+        <pre> 0xbd5AF599dB935166C314b9A70af6a9383F49466c</pre>
+    </h4>
+    <h4>Example 2 :
+        <pre> 0xbd5AF599dB935166C314b9A70af6a9383F49466c, 0xe2fAC1C082BF2C00C9f1acf7EF4a676a490fBf48</pre>
+    </h4>
+    <input type="text" placeholder="Enter wallet address here" id="inpt" required />
     <div>
         <select name="chain" id="chain">
             <option value="Polygon" id="pol">Polygon</option>
@@ -28,8 +36,14 @@
             <option value="USDC">USDC</option>
             <option value="Matic">Matic</option>
         </select>
-        <button id="btn">Fetch</button>
+        <button id="btn" class="btnSimple">Fetch</button>
     </div>
+    <div id="copies">
+        <button id="btn-copy-table" class="dispNone btnSimple">Copy Table</button>
+        <button id="export" class="dispNone btnSimple">Export CSV</button>
+    </div>
+    <div id="tbl"></div>
+
     <script src="app.js"></script>
 </body>
 
