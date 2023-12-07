@@ -3,7 +3,7 @@ td,
 th {
     border: 1px solid #FFFAFB;
     border-collapse: collapse;
-    margin: 3px;
+    margin-inline: 3px;
     padding: 15px;
     text-align: center;
     background-color: #131515;
@@ -152,4 +152,8 @@ h4 {
     h4 {
         display: none;
     }
+}
+
+.dispHidden {
+    visibility: hidden;
 }

@@ -36,23 +36,49 @@ const data = {
     }
 }
 
-// let tableObject = {adresses : [], amounts: [], };
+let tableObject = [];
 
-let amounts = [];
-async function inptStringToArray(fullString) {
+async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, coin) {
     let lastIdx = 0;
+    const progressor = document.querySelector(".progressor");
     for (let i = 0; i < fullString.length; i++) {
         if (fullString[i] == ",") {
-            let substr = fullString.substring(lastIdx, i);
-            substr = substr.trim();
+            let address = fullString.substring(lastIdx, i);
+            address = address.trim();
             lastIdx = i + 1;
-            if (substr == "" || substr == " ") continue;
-            amounts.push(substr);
+            if (address == "" || address == " ") continue;
+            console.log("Getting bal");
+            const amount = await getBalance(address, chain, coin);
+            console.log(amount)
+            if (amount == -1) {
+                const h2 = document.createElement("h2");
+                h2.innerHTML = `Something went wrong for wallet address: ${address}`;
+                const body = document.querySelector("body");
+                body.append(h2);
+            } else {
+                tableObject.push({ "address": `${address}`, "coin": `${coin}`, "chain": `${chain}`, "amount": `${amount}` });
+                progressor.innerText++;
+                console.log(tableObject);
+            }
         }
     }
-    let substr = fullString.substring(lastIdx, fullString.length);
-    substr = substr.trim();
-    if (!(substr == "" || substr == " ")) amounts.push(substr);
+    let address = fullString.substring(lastIdx, fullString.length);
+    address = address.trim();
+    if (!(address == "" || address == " ")) {
+        const amount = await getBalance(address, chain, coin);
+        if (amount == -1) {
+            const h2 = document.createElement("h2");
+            h2.innerHTML = `Something went wrong for wallet address: ${address}`;
+            const body = document.querySelector("body");
+            body.append(h2);
+        } else {
+            tableObject.push({ "address": `${address}`, "coin": `${coin}`, "chain": `${chain}`, "amount": `${amount}` });
+            progressor.innerText++;
+            console.log(tableObject);
+        }
+    }
+    createTable();
+    progressor.innerText = 0;
 }
 
 async function getBalance(address, chain, coin) {
@@ -66,6 +92,7 @@ async function getBalance(address, chain, coin) {
         }
         const gotVal = await axios.get(url);
         if (gotVal.data.status == 1) {
+            // console.log((gotVal.data.result * data[chain].tokens[coin].decimal))
             return (gotVal.data.result * data[chain].tokens[coin].decimal);
         }
         else {
@@ -78,57 +105,57 @@ async function getBalance(address, chain, coin) {
 
 const btnCopyTable = document.querySelector('#btn-copy-table');
 const exportTable = document.querySelector('#export');
-
-let tableCreated = 0;
 const btn = document.getElementById("btn");
 btn.addEventListener("click", async () => {
+    const dispHidProgressor = document.querySelector(".dispHidden");
+    dispHidProgressor.classList.remove("dispHidden");
     const addresses = document.querySelector("#inpt");
     const chain = document.querySelector("#chain").value;
     const coin = document.getElementById("coin").value;
 
-    await inptStringToArray(addresses.value);
-
+    await inptStringToArrayAndGetBalAndTableObjectBuild(addresses.value, chain, coin);
     addresses.value = "";
-
-    for (let address of amounts) {
-        const amount = await getBalance(address, chain, coin);
-        // if (!tableObject[address]) {
-        //     tableObject[address] = [];
-        // }
-        // if (!tableObject[chain]) {
-        //     tableObject[chain] = [];
-        // }
-        // if (!tableObject[coin]) {
-        //     tableObject[coin] = [];
-        // }
-        // tableObject[address][chain][coin].amount = amount;
-        // console.log(tableObject);
-        const body = document.querySelector("body");
-        if (amount == -1) {
-            const h2 = document.createElement("h2");
-            h2.innerHTML = `Something went wrong for wallet address: ${address}`;
-            body.append(h2);
-        }
-        else {
-            if (!tableCreated) {
-                const table = document.createElement("table");
-                const tr = document.createElement("tr");
-                tr.innerHTML = `<th> Wallet Address </th> <th> Amount </th> <th> Coin</th> <th> Blockchain </th>`;
-                const tbl = document.querySelector("#tbl");
-                table.appendChild(tr);
-                tbl.append(table);
-            }
-            const table = document.querySelector("table");
-            const tr = document.createElement("tr");
-            tr.innerHTML = ` <td> ${address} </td> <td> <b> ${amount} </td> </b>  <td> ${coin}</td> <td> ${chain}`;
-            table.appendChild(tr);
-            tableCreated = 1;
-            btnCopyTable.classList.remove("dispNone");
-            exportTable.classList.remove("dispNone");
-        }
-    }
-    amounts = []
+    dispHidProgressor.classList.add("dispHidden");
 })
+
+
+let tableCreated = 0;
+function createTable() {
+    const table = document.querySelector("table");
+    if (tableCreated) {
+        table.innerHTML = ` <tr> 
+                            <th> Wallet Address </th>
+                            <th class="sort"> Amount </th>
+                            <th> Coin</th> 
+                            <th> Blockchain </th>
+                            <tr>`;
+    }
+    for (let object of tableObject) {
+        if (!tableCreated) {
+            const table = document.createElement("table");
+            table.innerHTML = ` <tr> 
+                                <th> Wallet Address </th>
+                                <th class="sort"> Amount </th>
+                                <th> Coin</th> 
+                                <th> Blockchain </th>
+                                <tr>`;
+            const tbl = document.querySelector("#tbl");
+            tbl.append(table);
+            tableCreated = 1;
+        }
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td> ${object.address} </td>
+                        <td> <b> ${object.amount} </b> </td>
+                        <td> ${object.coin} </td> 
+                        <td> ${object.chain} </td>`;
+        const table = document.querySelector("table");
+        table.appendChild(tr);
+        btnCopyTable.classList.remove("dispNone");
+        exportTable.classList.remove("dispNone");
+    }
+}
+
+
 
 const tableToCSV = async () => {
     try {
