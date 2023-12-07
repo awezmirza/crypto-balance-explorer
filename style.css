@@ -1,7 +1,7 @@
 table,
 td,
 th {
-    border: 1px solid black;
+    border: 1px solid #FFFAFB;
     border-collapse: collapse;
     margin: 5px;
     padding: 15px;
@@ -14,46 +14,57 @@ body {
     margin: 0;
     padding: 0;
     align-items: center;
-    background-color: bisque;
+    background-color: #131515;
+    color: #FFFAFB;
+    font-family: 'Work Sans', sans-serif;
 }
 
 h1 {
-    margin-bottom: 0;
+    margin: 5px;
 }
 
 h3 {
     text-align: center;
+    margin: 3px;
+}
+
+h5 {
+    margin-bottom: 5px;
+    margin-top: 2px;
 }
 
 input {
-    /* min-width: 250px; */
     width: 80%;
     max-width: 400px;
     height: 30px;
     padding-inline: 15px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 button,
 select {
     all: unset;
-    color: aliceblue;
-    background-color: rgb(0, 55, 75);
-    border: 2px solid rgb(0, 55, 75);
+    color: #2B2C28;
+    background-color: #7DE2D1;
+    border: 2px solid #7DE2D1;
     margin: 5px;
     padding: 5px;
     width: 80px;
     text-align: center;
+    transition: 0.5s;
+    border-radius: 15px;
 }
 
 button:hover,
 select:hover {
     background-color: transparent;
-    border: 2px solid rgb(0, 55, 75);
-    color: rgb(0, 55, 75);
+    border: 2px solid #7DE2D1;
+    color: #7DE2D1;
     cursor: pointer;
+    transition: 0.5s;
 }
 
-::-webkit-scrollbar-thumb {
-    color: aqua;
-    background-color: aquamarine;
+option {
+    background-color: #7DE2D1;
+    color: #131515;
 }
