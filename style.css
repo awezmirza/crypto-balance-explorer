@@ -35,6 +35,66 @@ body {
     width: 100%;
 }
 
+/* -------------------------------------------------------------------- */
+
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 5%;
+    background: rgb(31, 31, 31);
+    border-bottom: 2px solid rgba(243, 233, 152, 1);
+}
+
+.btn2 {
+    all: unset;
+    height: fit-content;
+    color: #000000;
+    width: 110 px;
+    padding: 15px;
+    border-radius: 30px;
+    background: linear-gradient(90deg, rgba(144, 95, 38, 1) 0%, rgba(243, 233, 152, 1) 50%, rgba(144, 95, 38, 1) 100%);
+    font-weight: 800;
+    font-size: large;
+    border: 3px solid rgba(243, 233, 152, 0);
+}
+
+.btn2:hover {
+    cursor: pointer;
+    background: transparent;
+    color: rgba(243, 233, 152, 1);
+    border: 3px solid rgba(243, 233, 152, 1);
+}
+
+.btn2cmponents {
+    display: flex;
+}
+
+.btn2cmponents svg {
+    margin-left: 3px;
+}
+
+.logo svg {
+    width: 250;
+    height: 70px;
+}
+
+.btn2:hover .fill {
+    fill: rgba(243, 233, 152, 1);
+}
+
+@media screen and (max-width: 450px) {
+    .connectbtn {
+        display: none;
+    }
+
+    #navbar {
+        justify-content: center;
+    }
+}
+
+/* ------------------------------------------------------------------------ */
+
 h1 {
     margin: 5px;
 }
@@ -124,29 +184,15 @@ h4 {
     margin-bottom: 0;
 }
 
-.header {
+/* .header {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
-}
+} */
 
-.btn2 {
-    position: absolute;
-    right: 15px;
-}
 
-@media screen and (max-width: 670px) {
-    .header {
-        display: block;
-        position: static;
-    }
-
-    .btn2 {
-        position: static;
-    }
-}
 
 @media screen and (max-width: 420px) {
     h4 {
