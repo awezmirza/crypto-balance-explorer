@@ -68,7 +68,6 @@
             </button>
         </div>
     </div>
-    <h5>(If more than one wallet address, then enter comma seperated values)</h5>
     <div class="samples">
         <div class="sample1">
             <div class="sample-txt">
@@ -87,7 +86,25 @@
             </div>
         </div>
     </div>
-    <input type="text" placeholder="Enter wallet address here" id="inpt" required />
+    <h5>(If more than one wallet address, then enter comma or space seperated values)</h5>
+    <div class="inputbar">
+        <input type="text" placeholder="Enter wallet address here" autocomplete="off" id="inpt" required />
+        <div class="paste inputico">
+            <svg height="24" fill="rgba(243, 233, 152)" viewBox="0 -960 960 960" width="24">
+                <path
+                    d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h167q11-35 43-57.5t70-22.5q40 0 71.5 22.5T594-840h166q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560h-80v120H280v-120h-80v560Zm280-560q17 0 28.5-11.5T520-800q0-17-11.5-28.5T480-840q-17 0-28.5 11.5T440-800q0 17 11.5 28.5T480-760Z" />
+            </svg>
+        </div>
+        <div class="reset inputico dispNone">
+            <svg height="24" fill="rgba(243, 233, 152)" viewBox="0 -960 960 960" width="24">
+                <path
+                    d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+            </svg>
+        </div>
+        <div class="loading dispNone">
+            <div class="element anim-stop"></div>
+        </div>
+    </div>
     <div>
         <select name="chain" id="chain">
             <option value="polygon" id="pol">Polygon</option>
@@ -104,7 +121,7 @@
         <button id="btn-copy-table" class="dispNone btnSimple">Copy Table</button>
         <button id="export" class="dispNone btnSimple">Export CSV</button>
     </div>
-    <div class="dispHidden">Getting Amounts... <span class="progressor"> 0 </span> Done.</div>
+    <div class="getAmntsLoader dispHidden">Getting Amounts... <span class="progressor"> 0 </span> Done.</div>
     <div id="tbl"></div>
 
     <script src="app.js"></script>

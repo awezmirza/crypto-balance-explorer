@@ -1,3 +1,4 @@
+// Universal Data ----------------------------------------------------------------------
 const data = {
     polygon: {
         apiKey: "X1QIYHSGZWGNAQB8PPGIWSFEQ67H5EV9S9",
@@ -36,13 +37,25 @@ const data = {
     }
 }
 
+// Universal Elements ----------------------------------------------------------------------
+const inputBar = document.querySelector("#inpt");
+const pasteBtn = document.querySelector(".paste");
+const resetBtn = document.querySelector(".reset");
+const connectBtn = document.querySelector(".btn2");
+const btnCopyTable = document.querySelector('#btn-copy-table');
+const exportTable = document.querySelector('#export');
+const btn = document.getElementById("btn");
+
+// Universal Variables -----------------------------------------------------------------------
+let tableCreated = 0;
 let tableObject = [];
 
+// Input to array function ---------------------------------------------------------------------
 async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, coin) {
     let lastIdx = 0;
     const progressor = document.querySelector(".progressor");
     for (let i = 0; i < fullString.length; i++) {
-        if (fullString[i] == ",") {
+        if (fullString[i] == "," || fullString[i] == " ") {
             let address = fullString.substring(lastIdx, i);
             address = address.trim();
             lastIdx = i + 1;
@@ -52,6 +65,7 @@ async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, 
             console.log(amount)
             if (amount == -1) {
                 const h2 = document.createElement("h2");
+                // Use toastify 
                 h2.innerHTML = `Something went wrong for wallet address: ${address}`;
                 const body = document.querySelector("body");
                 body.append(h2);
@@ -68,6 +82,7 @@ async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, 
         const amount = await getBalance(address, chain, coin);
         if (amount == -1) {
             const h2 = document.createElement("h2");
+            // Use Toastify 
             h2.innerHTML = `Something went wrong for wallet address: ${address}`;
             const body = document.querySelector("body");
             body.append(h2);
@@ -81,6 +96,7 @@ async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, 
     progressor.innerText = 0;
 }
 
+// API Calls with get Balance Function -------------------------------------------------------------------
 async function getBalance(address, chain, coin) {
     try {
         const coinAddress = data[chain].tokens[coin].tokenAddress;
@@ -92,7 +108,6 @@ async function getBalance(address, chain, coin) {
         }
         const gotVal = await axios.get(url);
         if (gotVal.data.status == 1) {
-            // console.log((gotVal.data.result * data[chain].tokens[coin].decimal))
             return (gotVal.data.result * data[chain].tokens[coin].decimal);
         }
         else {
@@ -103,23 +118,30 @@ async function getBalance(address, chain, coin) {
     }
 }
 
-const btnCopyTable = document.querySelector('#btn-copy-table');
-const exportTable = document.querySelector('#export');
-const btn = document.getElementById("btn");
+// Fetch Event handler ----------------------------------------------------------------------------
 btn.addEventListener("click", async () => {
-    const dispHidProgressor = document.querySelector(".dispHidden");
+    const load = document.querySelector(".loading");
+    const loadElem = document.querySelector(".element");
+    const dispHidProgressor = document.querySelector(".getAmntsLoader");
+    const resetIcon = document.querySelector(".reset");
+
+    load.classList.remove("dispNone");
+    loadElem.classList.remove("anim-stop");
     dispHidProgressor.classList.remove("dispHidden");
-    const addresses = document.querySelector("#inpt");
+    resetIcon.classList.add("dispNone");
+
     const chain = document.querySelector("#chain").value;
     const coin = document.getElementById("coin").value;
+    await inptStringToArrayAndGetBalAndTableObjectBuild(inputBar.value, chain, coin);
+    inputBar.value = "";
+    inputBar.dispatchEvent(new Event('input'));
 
-    await inptStringToArrayAndGetBalAndTableObjectBuild(addresses.value, chain, coin);
-    addresses.value = "";
     dispHidProgressor.classList.add("dispHidden");
+    load.classList.add("dispNone");
+    loadElem.classList.add("anim-stop");
 })
 
-
-let tableCreated = 0;
+// Create table Function --------------------------------------------------------------------------
 function createTable() {
     const table = document.querySelector("table");
     if (tableCreated) {
@@ -143,11 +165,12 @@ function createTable() {
             tbl.append(table);
             tableCreated = 1;
         }
+        const chainName = object.chain.charAt(0).toUpperCase() + object.chain.slice(1);
         const tr = document.createElement("tr");
         tr.innerHTML = `<td> ${object.address} </td>
                         <td> <b> ${object.amount} </b> </td>
                         <td> ${object.coin} </td> 
-                        <td> ${object.chain} </td>`;
+                        <td> ${chainName} </td>`;
         const table = document.querySelector("table");
         table.appendChild(tr);
         btnCopyTable.classList.remove("dispNone");
@@ -155,12 +178,11 @@ function createTable() {
     }
 }
 
-
-
+// Export table feature -----------------------------------------------------------------
+exportTable.addEventListener('click', () => tableToCSV());
 const tableToCSV = async () => {
     try {
         let csvData = [];
-
         const rows = document.querySelectorAll("tr");
         for (let row of rows) {
             let cols = row.querySelectorAll("th,td");
@@ -176,7 +198,7 @@ const tableToCSV = async () => {
 
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = 'Coins.csv';
+        link.download = 'TokenBalances.csv';
 
         link.style.display = "none";
         document.body.appendChild(link);
@@ -187,6 +209,8 @@ const tableToCSV = async () => {
     }
 }
 
+// Copy Table Feature -------------------------------------------------------------------
+btnCopyTable.addEventListener('click', () => copyEl());
 const copyEl = async () => {
     const elToBeCopied = document.querySelector('table');
     try {
@@ -197,11 +221,38 @@ const copyEl = async () => {
     }
 };
 
-btnCopyTable.addEventListener('click', () => copyEl());
-exportTable.addEventListener('click', () => tableToCSV());
-
-const hreBtn = document.querySelector(".btn2");
-
-hreBtn.addEventListener("click", () => {
+// Connect Button feature -------------------------------------------------------------------------
+connectBtn.addEventListener("click", () => {
     window.location.href = 'https://www.linkedin.com/in/awezmirza/';
+})
+
+// Paste In inputbar feature --------------------------------------------------------
+pasteBtn.addEventListener("click", () => {
+    navigator.clipboard.readText()
+        .then((copiedText) => {
+            inputBar.value = copiedText;
+            inputBar.dispatchEvent(new Event('input'));
+        }).catch(err => {
+            alert("Failed to read");
+        });
+})
+
+// Reset Inputbar feature -----------------------------------------------------------
+resetBtn.addEventListener("click", () => {
+    inputBar.value = "";
+    inputBar.dispatchEvent(new Event('input'));
+
+})
+
+// Show Reset button Feature ----------------------------------------------------------
+inputBar.addEventListener("input", (event) => {
+    const text = event.target.value;
+    if (text) {
+        pasteBtn.classList.add("dispNone");
+        resetBtn.classList.remove("dispNone");
+    }
+    else {
+        pasteBtn.classList.remove("dispNone");
+        resetBtn.classList.add("dispNone");
+    }
 })
