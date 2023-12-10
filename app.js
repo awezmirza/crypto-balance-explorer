@@ -45,6 +45,8 @@ const connectBtn = document.querySelector(".btn2");
 const btnCopyTable = document.querySelector('#btn-copy-table');
 const exportTable = document.querySelector('#export');
 const btn = document.getElementById("btn");
+const errorcontainer = document.querySelector(".errorcontainers");
+const clrerrorbtn = document.querySelector(".clrerrorbtn");
 
 // Universal Variables -----------------------------------------------------------------------
 let tableCreated = 0;
@@ -66,9 +68,8 @@ async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, 
             if (amount == -1) {
                 const h2 = document.createElement("h2");
                 // Use toastify 
-                h2.innerHTML = `Something went wrong for wallet address: ${address}`;
-                const body = document.querySelector("body");
-                body.append(h2);
+                h2.innerText = `Something went wrong for wallet address: ${address}`;
+                errorcontainer.append(h2);
             } else {
                 tableObject.push({ "address": `${address}`, "coin": `${coin}`, "chain": `${chain}`, "amount": `${amount}` });
                 progressor.innerText++;
@@ -82,10 +83,9 @@ async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, 
         const amount = await getBalance(address, chain, coin);
         if (amount == -1) {
             const h2 = document.createElement("h2");
-            // Use Toastify 
-            h2.innerHTML = `Something went wrong for wallet address: ${address}`;
-            const body = document.querySelector("body");
-            body.append(h2);
+            // Use toastify 
+            h2.innerText = `Something went wrong for wallet address: ${address}`;
+            errorcontainer.append(h2);
         } else {
             tableObject.push({ "address": `${address}`, "coin": `${coin}`, "chain": `${chain}`, "amount": `${amount}` });
             progressor.innerText++;
@@ -230,6 +230,7 @@ connectBtn.addEventListener("click", () => {
 pasteBtn.addEventListener("click", () => {
     navigator.clipboard.readText()
         .then((copiedText) => {
+            copiedText = copiedText.split('\n').join(' ');
             inputBar.value = copiedText;
             inputBar.dispatchEvent(new Event('input'));
         }).catch(err => {
@@ -255,4 +256,21 @@ inputBar.addEventListener("input", (event) => {
         pasteBtn.classList.remove("dispNone");
         resetBtn.classList.add("dispNone");
     }
+})
+
+// Reset Errors -----------------------------------------------------------------
+// errorcontainer.addEventListener("onchange", (event) => {
+//     const text = event.target.value;
+//     if (text) {
+//         pasteBtn.classList.add("dispNone");
+//         resetBtn.classList.remove("dispNone");
+//     }
+//     else {
+//         pasteBtn.classList.remove("dispNone");
+//         resetBtn.classList.add("dispNone");
+//     }
+// })
+
+clrerrorbtn.addEventListener("click", () => {
+    errorcontainer.innerHTML = "";
 })

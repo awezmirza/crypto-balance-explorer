@@ -2,14 +2,13 @@
 body {
     flex-direction: column;
     margin: 0;
-    padding: 0;
     align-items: center;
     background-color: rgb(31, 31, 31);
     color: #FFFAFB;
     font-family: 'Work Sans', sans-serif;
-    scroll-behavior: smooth;
     text-align: center;
-    width: 100%;
+    min-height: 100vh;
+    position: relative;
 }
 
 *::selection {
@@ -28,6 +27,14 @@ body {
 
 .anim-stop {
     animation-play-state: paused;
+}
+
+.ease {
+    transition: ease 0.25s;
+}
+
+.ease:hover {
+    transition: ease 0.25s;
 }
 
 /* Header -------------------------------------------------------------------- */
@@ -149,7 +156,10 @@ h5 {
     background-color: #131515;
     margin: 5px auto 10px auto;
     border: 1px solid rgba(243, 233, 152);
-    /* border-radius: 29px; */
+}
+
+.inputbar:focus-within {
+    box-shadow: inset 0px 0px 0px 2px rgba(243, 233, 152);
 }
 
 .inputico {
@@ -294,3 +304,52 @@ td:nth-child(3) {
 ::-webkit-scrollbar-thumb:hover {
     background: rgb(98, 87, 3);
 }
+
+/* Errors --------------------------------------------------------------------------- */
+.clrerrorbtn button {
+    width: max-content;
+    margin-top: 30px;
+}
+
+/* Footer ---------------------------------------------------------------------- */
+
+#footerContainer {
+    height: 150px;
+}
+
+#footer {
+    background-color: #131515;
+    border-top: 2px solid rgba(243, 233, 152);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+}
+
+#footer ul {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#footer ul li {
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#footer ul li a {
+    all: unset;
+    cursor: pointer;
+}
+
+#footer ul li a svg:hover {
+    width: 50px;
+    height: 50px;
+}
+
+/* ----------------------------------------------------------------------------- */
