@@ -1,8 +1,6 @@
 /* Universal ------------------------------------------------------------ */
 body {
-    flex-direction: column;
     margin: 0;
-    align-items: center;
     background-color: rgb(31, 31, 31);
     color: #FFFAFB;
     font-family: 'Work Sans', sans-serif;
@@ -105,8 +103,13 @@ body {
 
 /* Samples  ------------------------------------------------------------------------ */
 
+.samples {
+    margin: auto;
+}
+
 .sample1 {
     margin-top: 10px;
+    /* margin: auto; */
 }
 
 .address-sample-1 {
@@ -152,7 +155,6 @@ h5 {
     align-items: center;
     width: 80%;
     max-width: 600px;
-    margin: auto;
     background-color: #131515;
     margin: 5px auto 10px auto;
     border: 1px solid rgba(243, 233, 152);
