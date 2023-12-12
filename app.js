@@ -56,7 +56,8 @@ let tableObject = [];
 async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, coin) {
     let lastIdx = 0;
     const progressor = document.querySelector(".progressor");
-    for (let i = 0; i < fullString.length; i++) {
+    const strSize = fullString.length;
+    for (let i = 0; i < strSize; i++) {
         if (fullString[i] == "," || fullString[i] == " " || fullString[i] == "\n" || fullString[i] == "\t") {
             let address = fullString.substring(lastIdx, i);
             address = address.trim();
@@ -64,25 +65,25 @@ async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, 
             if (address == "" || address == " ") continue;
             const amount = await getBalance(address, chain, coin);
             if (amount == -1) {
-                const h2 = document.createElement("h2");
+                const h3 = document.createElement("h3");
                 // Use toastify 
                 h3.innerText = `Something went wrong for wallet address: ${address}`;
-                errorcontainer.append(h2);
+                errorcontainer.append(h3);
             } else {
                 tableObject.push({ "address": `${address}`, "coin": `${coin}`, "chain": `${chain}`, "amount": `${amount}` });
                 progressor.innerText++;
             }
         }
     }
-    let address = fullString.substring(lastIdx, fullString.length);
+    let address = fullString.substring(lastIdx, strSize);
     address = address.trim();
     if (!(address == "" || address == " ")) {
         const amount = await getBalance(address, chain, coin);
         if (amount == -1) {
-            const h2 = document.createElement("h2");
+            const h3 = document.createElement("h3");
             // Use toastify 
             h3.innerText = `Something went wrong for wallet address: ${address}`;
-            errorcontainer.append(h2);
+            errorcontainer.append(h3);
         } else {
             tableObject.push({ "address": `${address}`, "coin": `${coin}`, "chain": `${chain}`, "amount": `${amount}` });
             progressor.innerText++;
