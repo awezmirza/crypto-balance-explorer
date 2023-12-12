@@ -152,14 +152,14 @@ function createTable() {
                             <th> Blockchain </th>
                             <tr>`;
     }
-    for (let object of tableObject) {
+    tableObject.map((object) => {
         if (!tableCreated) {
             const table = document.createElement("table");
             table.innerHTML = ` <tr> 
-                                <th> Wallet Address </th>
-                                <th class="sort"> Amount </th>
-                                <th> Coin</th> 
-                                <th> Blockchain </th>
+                                    <th> Wallet Address </th>
+                                    <th class="sort"> Amount </th>
+                                    <th> Coin</th> 
+                                    <th> Blockchain </th>
                                 <tr>`;
             const tbl = document.querySelector("#tbl");
             tbl.append(table);
@@ -175,7 +175,7 @@ function createTable() {
         table.appendChild(tr);
         btnCopyTable.classList.remove("dispNone");
         exportTable.classList.remove("dispNone");
-    }
+    })
 }
 
 // Export table feature -----------------------------------------------------------------
@@ -184,14 +184,14 @@ const tableToCSV = async () => {
     try {
         let csvData = [];
         const rows = document.querySelectorAll("tr");
-        for (let row of rows) {
+        rows.map((row) => {
             let cols = row.querySelectorAll("th,td");
             let csvRow = []
-            for (let col of cols) {
+            cols.map((col) => {
                 csvRow.push(col.innerText);
-            }
+            })
             csvData.push(csvRow.join(","));
-        }
+        });
         csvData = csvData.join("\n");
 
         const blob = new Blob([csvData], { type: 'text/csv' });
@@ -259,15 +259,12 @@ inputBar.addEventListener("input", (event) => {
 })
 
 // Reset Errors -----------------------------------------------------------------
-// errorcontainer.addEventListener("onchange", (event) => {
-//     const text = event.target.value;
-//     if (text) {
-//         pasteBtn.classList.add("dispNone");
-//         resetBtn.classList.remove("dispNone");
+// errorcontainer.addEventListener("change", (event) => {
+//     if (errorcontainer.innerHTML) {
+//         clrerrorbtn.classList.remove("dispHidden");
 //     }
 //     else {
-//         pasteBtn.classList.remove("dispNone");
-//         resetBtn.classList.add("dispNone");
+//         clrerrorbtn.classList.add("dispHidden");
 //     }
 // })
 
