@@ -57,23 +57,20 @@ async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, 
     let lastIdx = 0;
     const progressor = document.querySelector(".progressor");
     for (let i = 0; i < fullString.length; i++) {
-        if (fullString[i] == "," || fullString[i] == " ") {
+        if (fullString[i] == "," || fullString[i] == " " || fullString[i] == "\n" || fullString[i] == "\t") {
             let address = fullString.substring(lastIdx, i);
             address = address.trim();
             lastIdx = i + 1;
             if (address == "" || address == " ") continue;
-            console.log("Getting bal");
             const amount = await getBalance(address, chain, coin);
-            console.log(amount)
             if (amount == -1) {
                 const h2 = document.createElement("h2");
                 // Use toastify 
-                h2.innerText = `Something went wrong for wallet address: ${address}`;
+                h3.innerText = `Something went wrong for wallet address: ${address}`;
                 errorcontainer.append(h2);
             } else {
                 tableObject.push({ "address": `${address}`, "coin": `${coin}`, "chain": `${chain}`, "amount": `${amount}` });
                 progressor.innerText++;
-                console.log(tableObject);
             }
         }
     }
@@ -84,12 +81,11 @@ async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, 
         if (amount == -1) {
             const h2 = document.createElement("h2");
             // Use toastify 
-            h2.innerText = `Something went wrong for wallet address: ${address}`;
+            h3.innerText = `Something went wrong for wallet address: ${address}`;
             errorcontainer.append(h2);
         } else {
             tableObject.push({ "address": `${address}`, "coin": `${coin}`, "chain": `${chain}`, "amount": `${amount}` });
             progressor.innerText++;
-            console.log(tableObject);
         }
     }
     createTable();
@@ -184,14 +180,14 @@ const tableToCSV = async () => {
     try {
         let csvData = [];
         const rows = document.querySelectorAll("tr");
-        rows.map((row) => {
+        for (let row of rows) {
             let cols = row.querySelectorAll("th,td");
-            let csvRow = []
-            cols.map((col) => {
+            let csvRow = [];
+            for (let col of cols) {
                 csvRow.push(col.innerText);
-            })
+            };
             csvData.push(csvRow.join(","));
-        });
+        };
         csvData = csvData.join("\n");
 
         const blob = new Blob([csvData], { type: 'text/csv' });
