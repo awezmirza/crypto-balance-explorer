@@ -38,14 +38,6 @@ const data = {
 }
 
 // Universal Elements ----------------------------------------------------------------------
-const pasteBtn = document.querySelector(".paste");
-const resetBtn = document.querySelector(".reset");
-const connectBtn = document.querySelector(".btn2");
-const btnCopyTable = document.querySelector('#btn-copy-table');
-const exportTable = document.querySelector('#export');
-const btn = document.getElementById("btn");
-const errorcontainer = document.querySelector(".errorcontainers");
-const clrerrorbtn = document.querySelector(".clrerrorbtn");
 
 // Universal Variables -----------------------------------------------------------------------
 let tableCreated = 0;
@@ -54,7 +46,6 @@ let tableObject = [];
 // Input to array function ---------------------------------------------------------------------
 async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, coin) {
     let lastIdx = 0;
-    const progressor = document.querySelector(".progressor");
     const strSize = fullString.length;
     for (let i = 0; i < strSize; i++) {
         if (fullString[i] == "," || fullString[i] == " " || fullString[i] == "\n" || fullString[i] == "\t") {
@@ -116,27 +107,19 @@ async function getBalance(address, chain, coin) {
 
 // Fetch Event handler ----------------------------------------------------------------------------
 btn.addEventListener("click", async () => {
-    const load = document.querySelector(".loading");
     inputBar.disabled = true;
     inputContainer.classList.add("inptDisabled");
-    const loadElem = document.querySelector(".element");
-    const dispHidProgressor = document.querySelector(".getAmntsLoader");
-    const resetIcon = document.querySelector(".reset");
 
     load.classList.remove("dispNone");
     loadElem.classList.remove("anim-stop");
-    dispHidProgressor.classList.remove("dispHidden");
-    resetIcon.classList.add("dispNone");
+    getAmntsLoader.classList.remove("dispHidden");
+    resetBtn.classList.add("dispNone");
 
-    const chain = document.querySelector("#chain").value;
-    const coin = document.getElementById("coin").value;
-    console.dir(inputBar);
-    // console.log(window)
-    await inptStringToArrayAndGetBalAndTableObjectBuild(inputBar.value, chain, coin);
+    await inptStringToArrayAndGetBalAndTableObjectBuild(inputBar.value, chain.value, coin.value);
     inputBar.value = "";
     inputBar.dispatchEvent(new Event('input'));
 
-    dispHidProgressor.classList.add("dispHidden");
+    getAmntsLoader.classList.add("dispHidden");
     load.classList.add("dispNone");
     loadElem.classList.add("anim-stop");
     inputBar.disabled = false;

@@ -47,7 +47,7 @@ body {
     border-bottom: 2px solid rgba(243, 233, 152);
 }
 
-.btn2 {
+#connectBtn {
     all: unset;
     height: fit-content;
     color: #000000;
@@ -60,7 +60,7 @@ body {
     border: 3px solid rgba(243, 233, 152, 0);
 }
 
-.btn2:hover {
+#connectBtn:hover {
     cursor: pointer;
     background: none;
     color: rgba(243, 233, 152, 1);
@@ -80,12 +80,12 @@ body {
     height: 70px;
 }
 
-.btn2:hover .fill {
+#connectBtn:hover .fill {
     fill: rgba(243, 233, 152, 1);
 }
 
 @media screen and (max-width: 450px) {
-    .connectbtn {
+    .connectbtnContainer {
         display: none;
     }
 
@@ -151,7 +151,7 @@ h5 {
 
 /* Inputbar -------------------------------------------------------------- */
 
-.inputbar {
+#inputContainer {
     display: flex;
     align-items: center;
     width: 80%;
@@ -161,7 +161,7 @@ h5 {
     border: 1px solid rgba(243, 233, 152);
 }
 
-.inputbar:focus-within {
+#inputContainer:focus-within {
     box-shadow: inset 0px 0px 0px 2px rgba(243, 233, 152);
 }
 
@@ -182,12 +182,12 @@ h5 {
 
 
 /* Loading animation */
-.loading {
+#load {
     padding: 10px 12px;
     margin: 2px;
 }
 
-.element {
+#loadElem {
     border-radius: 50%;
     height: 21px;
     width: 21px;
@@ -309,7 +309,7 @@ td:nth-child(3) {
 }
 
 /* Errors --------------------------------------------------------------------------- */
-.clrerrorbtn button {
+#clrerrorbtn button {
     width: max-content;
     margin-top: 30px;
 }
