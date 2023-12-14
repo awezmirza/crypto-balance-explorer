@@ -38,7 +38,6 @@ const data = {
 }
 
 // Universal Elements ----------------------------------------------------------------------
-const inputBar = document.querySelector("#inpt");
 const pasteBtn = document.querySelector(".paste");
 const resetBtn = document.querySelector(".reset");
 const connectBtn = document.querySelector(".btn2");
@@ -118,6 +117,8 @@ async function getBalance(address, chain, coin) {
 // Fetch Event handler ----------------------------------------------------------------------------
 btn.addEventListener("click", async () => {
     const load = document.querySelector(".loading");
+    inputBar.disabled = true;
+    inputContainer.classList.add("inptDisabled");
     const loadElem = document.querySelector(".element");
     const dispHidProgressor = document.querySelector(".getAmntsLoader");
     const resetIcon = document.querySelector(".reset");
@@ -129,6 +130,8 @@ btn.addEventListener("click", async () => {
 
     const chain = document.querySelector("#chain").value;
     const coin = document.getElementById("coin").value;
+    console.dir(inputBar);
+    // console.log(window)
     await inptStringToArrayAndGetBalAndTableObjectBuild(inputBar.value, chain, coin);
     inputBar.value = "";
     inputBar.dispatchEvent(new Event('input'));
@@ -136,6 +139,8 @@ btn.addEventListener("click", async () => {
     dispHidProgressor.classList.add("dispHidden");
     load.classList.add("dispNone");
     loadElem.classList.add("anim-stop");
+    inputBar.disabled = false;
+    inputContainer.classList.remove("inptDisabled");
 })
 
 // Create table Function --------------------------------------------------------------------------
