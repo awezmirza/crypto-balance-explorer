@@ -105,8 +105,8 @@ async function getBalance(address, chain, coin) {
     }
 }
 
-document.addEventListener("keydown", (key) => {
-    if (key.key === "Enter" && inputBar == document.activeElement) {
+inputBar.addEventListener("keydown", (key) => {
+    if (key.key === "Enter") {
         btn.click();
     }
 });
