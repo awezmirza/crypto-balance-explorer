@@ -14,26 +14,7 @@ body {
     color: #000000;
 }
 
-/* Utility Classes ----------------------------------------------------------------- */
-.dispNone {
-    display: none;
-}
 
-.dispHidden {
-    visibility: hidden;
-}
-
-.anim-stop {
-    animation-play-state: paused;
-}
-
-.ease {
-    transition: ease 0.25s;
-}
-
-.ease:hover {
-    transition: ease 0.25s;
-}
 
 
 /* Header -------------------------------------------------------------------- */
@@ -373,4 +354,25 @@ td:nth-child(3) {
     50% {
         background-color: #363636;
     }
+}
+
+/* Utility Classes ----------------------------------------------------------------- */
+.dispNone {
+    display: none;
+}
+
+.dispHidden {
+    visibility: hidden;
+}
+
+.anim-stop {
+    animation-play-state: paused;
+}
+
+.ease {
+    transition: ease 0.25s;
+}
+
+.ease:hover {
+    transition: ease 0.25s;
 }

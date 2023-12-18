@@ -152,7 +152,6 @@ function createTable() {
                                     <th> Coin</th> 
                                     <th> Blockchain </th>
                                 <tr>`;
-            const tbl = document.querySelector("#tbl");
             tbl.append(table);
             tableCreated = 1;
         }
