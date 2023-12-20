@@ -41,7 +41,8 @@ body {
     border: 3px solid rgba(243, 233, 152, 0);
 }
 
-#connectBtn:hover {
+#connectBtn:hover,
+#connectBtn:focus {
     cursor: pointer;
     background: none;
     color: rgba(243, 233, 152, 1);
@@ -61,7 +62,8 @@ body {
     height: 70px;
 }
 
-#connectBtn:hover .fill {
+#connectBtn:hover .fill,
+#connectBtn:focus .fill {
     fill: rgba(243, 233, 152, 1);
 }
 
@@ -213,7 +215,9 @@ select {
 }
 
 .btnSimple:hover,
-select:hover {
+select:hover,
+.btnSimple:focus,
+select:focus {
     background-color: transparent;
     border: 2px solid rgba(243, 233, 152);
     color: rgba(243, 233, 152);
@@ -369,10 +373,8 @@ td:nth-child(3) {
     animation-play-state: paused;
 }
 
+.ease:hover,
+.ease:focus,
 .ease {
-    transition: ease 0.25s;
-}
-
-.ease:hover {
     transition: ease 0.25s;
 }
