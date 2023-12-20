@@ -120,7 +120,16 @@
         <button id="exportTable" class="dispNone btnSimple">Export CSV</button>
     </div>
     <div class="dispHidden" id="getAmntsLoader">Getting Amounts... <span id="progressor"> 0 </span> Done.</div>
-    <div id="tbl"></div>
+    <div id="tbl">
+        <table id="table" class="dispNone">
+            <tr>
+                <th> Wallet Address </th>
+                <th> Amount</th>
+                <th class="sort"> Coin </th>
+                <th> Blockchain </th>
+            <tr>
+        </table>
+    </div>
     <div id="clrerrorbtn"><button class="btnSimple"> Clear All Errors</button></div>
     <div id="errorcontainer"></div>
     <div id="footerContainer">

@@ -41,10 +41,11 @@ const data = {
 
 // Universal Variables -----------------------------------------------------------------------
 let tableCreated = 0;
-let tableObject = [];
+let allTableObject = [];
 
 // Input to array function ---------------------------------------------------------------------
 async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, coin) {
+    let tableObject = [];
     let lastIdx = 0;
     const strSize = fullString.length;
     for (let i = 0; i < strSize; i++) {
@@ -79,7 +80,10 @@ async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, 
             progressor.innerText++;
         }
     }
-    createTable();
+    console.log(tableObject);
+    console.log(allTableObject);
+    allTableObject.push(...tableObject);
+    createTable(tableObject);
     progressor.innerText = 0;
 }
 
@@ -133,26 +137,10 @@ btn.addEventListener("click", async () => {
 })
 
 // Create table Function --------------------------------------------------------------------------
-function createTable() {
-    const table = document.querySelector("table");
-    if (tableCreated) {
-        table.innerHTML = ` <tr> 
-                            <th> Wallet Address </th>
-                            <th class="sort"> Amount </th>
-                            <th> Coin</th> 
-                            <th> Blockchain </th>
-                            <tr>`;
-    }
+function createTable(tableObject) {
     tableObject.map((object) => {
         if (!tableCreated) {
-            const table = document.createElement("table");
-            table.innerHTML = ` <tr> 
-                                    <th> Wallet Address </th>
-                                    <th class="sort"> Amount </th>
-                                    <th> Coin</th> 
-                                    <th> Blockchain </th>
-                                <tr>`;
-            tbl.append(table);
+            table.classList.remove("dispNone");
             tableCreated = 1;
         }
         const chainName = object.chain.charAt(0).toUpperCase() + object.chain.slice(1);
@@ -161,10 +149,8 @@ function createTable() {
                         <td> <b> ${object.amount} </b> </td>
                         <td> ${object.coin} </td> 
                         <td> ${chainName} </td>`;
-        const table = document.querySelector("table");
         table.appendChild(tr);
-        btnCopyTable.classList.remove("dispNone");
-        exportTable.classList.remove("dispNone");
+        btnCopyTable.classList.remove("dispNone"), exportTable.classList.remove("dispNone");
     })
 }
 
