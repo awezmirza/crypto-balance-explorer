@@ -14,9 +14,6 @@ body {
     color: #000000;
 }
 
-
-
-
 /* Header -------------------------------------------------------------------- */
 
 #navbar {
@@ -93,7 +90,6 @@ body {
 
 .sample1 {
     margin-top: 10px;
-    /* margin: auto; */
 }
 
 .address-sample-1 {
@@ -273,6 +269,10 @@ td:nth-child(3) {
     #tbl {
         display: block;
     }
+}
+
+.sort {
+    cursor: pointer;
 }
 
 /* Scroll Bar ------------------------------------------------------------ */

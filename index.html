@@ -122,12 +122,17 @@
     <div class="dispHidden" id="getAmntsLoader">Getting Amounts... <span id="progressor"> 0 </span> Done.</div>
     <div id="tbl">
         <table id="table" class="dispNone">
-            <tr>
-                <th> Wallet Address </th>
-                <th> Amount</th>
-                <th class="sort"> Coin </th>
-                <th> Blockchain </th>
-            <tr>
+            <thead>
+                <tr>
+                    <th> Wallet Address </th>
+                    <th id="sortAmt" class="sort"> Amount</th>
+                    <th id="sortCoin" class="sort"> Coin </th>
+                    <th id="sortChain" class="sort"> Blockchain </th>
+                <tr>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
         </table>
     </div>
     <div id="clrerrorbtn"><button class="btnSimple"> Clear All Errors</button></div>

@@ -80,8 +80,6 @@ async function inptStringToArrayAndGetBalAndTableObjectBuild(fullString, chain, 
             progressor.innerText++;
         }
     }
-    console.log(tableObject);
-    console.log(allTableObject);
     allTableObject.push(...tableObject);
     createTable(tableObject);
     progressor.innerText = 0;
@@ -137,11 +135,15 @@ btn.addEventListener("click", async () => {
 })
 
 // Create table Function --------------------------------------------------------------------------
-function createTable(tableObject) {
+function createTable(tableObject, sorted = false) {
     tableObject.map((object) => {
         if (!tableCreated) {
-            table.classList.remove("dispNone");
+            table.classList.remove("dispNone"), btnCopyTable.classList.remove("dispNone"), exportTable.classList.remove("dispNone");
             tableCreated = 1;
+        }
+        if (sorted) {
+            tbody.innerHTML = "";
+            sorted = false;
         }
         const chainName = object.chain.charAt(0).toUpperCase() + object.chain.slice(1);
         const tr = document.createElement("tr");
@@ -149,10 +151,78 @@ function createTable(tableObject) {
                         <td> <b> ${object.amount} </b> </td>
                         <td> ${object.coin} </td> 
                         <td> ${chainName} </td>`;
-        table.appendChild(tr);
-        btnCopyTable.classList.remove("dispNone"), exportTable.classList.remove("dispNone");
+        tbody.appendChild(tr);
     })
 }
+
+// Sort Table ---------------------------------------------------------------------------------------------
+
+let toggleSorted = 0;
+sortAmt.addEventListener('click', () => {
+    let array = allTableObject;
+    if (toggleSorted) {
+        array.sort((a, b) => {
+            return parseFloat(a.amount) - parseFloat(b.amount);
+        });
+    }
+    else {
+        array.sort((a, b) => {
+            return parseFloat(b.amount) - parseFloat(a.amount);
+        });
+    }
+
+    toggleSorted = !toggleSorted;
+    console.log(array);
+    createTable(array, true);
+})
+
+sortCoin.addEventListener('click', () => {
+    let array = allTableObject;
+    if (toggleSorted) {
+        array.sort((a, b) => {
+            if (a.coin > b.coin)
+                return 1;
+            else {
+                return -1;
+            }
+        });
+    }
+    else {
+        array.sort((a, b) => {
+            if (a.coin < b.coin)
+                return 1;
+            else {
+                return -1;
+            }
+        });
+    }
+    toggleSorted = !toggleSorted;
+    createTable(array, true);
+})
+
+sortChain.addEventListener('click', () => {
+    let array = allTableObject;
+    if (toggleSorted) {
+        array.sort((a, b) => {
+            if (a.chain > b.chain)
+                return 1;
+            else {
+                return -1;
+            }
+        });
+    }
+    else {
+        array.sort((a, b) => {
+            if (a.chain < b.chain)
+                return 1;
+            else {
+                return -1;
+            }
+        });
+    }
+    toggleSorted = !toggleSorted;
+    createTable(array, true);
+})
 
 // Export table feature -----------------------------------------------------------------
 exportTable.addEventListener('click', () => tableToCSV());
@@ -247,3 +317,4 @@ inputBar.addEventListener("input", (event) => {
 clrerrorbtn.addEventListener("click", () => {
     errorcontainer.innerHTML = "";
 })
+
