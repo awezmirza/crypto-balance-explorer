@@ -172,7 +172,6 @@ sortAmt.addEventListener('click', () => {
     }
 
     toggleSorted = !toggleSorted;
-    console.log(array);
     createTable(array, true);
 })
 

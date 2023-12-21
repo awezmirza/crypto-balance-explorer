@@ -59,12 +59,26 @@ body {
     height: 70px;
 }
 
+.beta {
+    background-color: rgba(243, 233, 152);
+    color: #000000;
+    margin: 5px 5px;
+    padding: 0px 5px;
+    height: min-content;
+    border-radius: 20px;
+    background: linear-gradient(90deg, rgba(144, 95, 38, 1) 0%, rgba(243, 233, 152, 1) 50%, rgba(144, 95, 38, 1) 100%);
+}
+
+.logoContainer {
+    display: flex;
+}
+
 #connectBtn:hover .fill,
 #connectBtn:focus .fill {
     fill: rgba(243, 233, 152, 1);
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 490px) {
     .connectbtnContainer {
         display: none;
     }
@@ -80,6 +94,16 @@ body {
         margin: 0;
         background-color: transparent;
     }
+
+    .beta {
+        width: min-content;
+        margin: auto;
+    }
+
+    .logoContainer {
+        display: block;
+    }
+
 }
 
 /* Samples  ------------------------------------------------------------------------ */
