@@ -39,7 +39,7 @@ body {
 }
 
 #connectBtn:hover,
-#connectBtn:focus {
+#connectBtn:focus-within {
     cursor: pointer;
     background: none;
     color: rgba(243, 233, 152, 1);
@@ -73,8 +73,7 @@ body {
     display: flex;
 }
 
-#connectBtn:hover .fill,
-#connectBtn:focus .fill {
+#connectBtn:hover .fill{
     fill: rgba(243, 233, 152, 1);
 }
 
@@ -236,8 +235,8 @@ select {
 
 .btnSimple:hover,
 select:hover,
-.btnSimple:focus,
-select:focus {
+.btnSimple:focus-visible,
+select:focus-visible {
     background-color: transparent;
     border: 2px solid rgba(243, 233, 152);
     color: rgba(243, 233, 152);
@@ -398,7 +397,6 @@ td:nth-child(3) {
 }
 
 .ease:hover,
-.ease:focus,
 .ease {
     transition: ease 0.25s;
 }
