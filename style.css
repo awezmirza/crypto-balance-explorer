@@ -23,6 +23,7 @@ body {
     padding: 5px 5%;
     background-color: #131515;
     border-bottom: 2px solid rgba(243, 233, 152);
+    overflow-x: auto;
 }
 
 #connectBtn {
@@ -73,7 +74,7 @@ body {
     display: flex;
 }
 
-#connectBtn:hover .fill{
+#connectBtn:hover .fill {
     fill: rgba(243, 233, 152, 1);
 }
 
@@ -138,6 +139,10 @@ body {
     .address-sample-1,
     .address-sample-2 {
         font-size: 3.4vw;
+    }
+
+    .samples {
+        display: none;
     }
 }
 
